@@ -1,13 +1,30 @@
 import { Box, Typography, Paper, TextField, Button, Stack, Link } from "@mui/material";
 import { ThemeToggle } from "../../components/common/ThemeToggle";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { loginUser } from "../../services/authService";
+
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     // Xử lý đăng nhập sau
+    try {
+    const data = await loginUser(email, password);
+    console.log("Đăng nhập thành công:", data);
+
+    // Ví dụ: lưu token vào localStorage và redirect
+    localStorage.setItem("token", data.accessToken);
+    navigate("/dashboard");
+    } catch (err: any) {
+      console.log(err);
+      alert(err.message);
+    }
   };
 
   return (
@@ -50,8 +67,20 @@ const LoginPage = () => {
 
         <form onSubmit={handleLogin}>
           <Stack spacing={2}>
-            <TextField label="Email" type="email" fullWidth required />
-            <TextField label="Mật khẩu" type="password" fullWidth required />
+            <TextField 
+              label="Email" 
+              type="email" 
+              fullWidth
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}/>
+            <TextField 
+              label="Mật khẩu" 
+              type="password" 
+              fullWidth 
+              required 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}/>
             <Button type="submit" variant="contained" fullWidth>
               Đăng nhập
             </Button>
