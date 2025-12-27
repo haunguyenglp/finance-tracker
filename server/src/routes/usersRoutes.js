@@ -1,10 +1,9 @@
 import express from "express";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import { getMe } from "../controllers/usersController";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, (req, res) => {
-  res.json({ message: "Chào mừng đến với dashboard!" });
-});
+router.get("/me", authMiddleware, getMe);
 
 export default router;

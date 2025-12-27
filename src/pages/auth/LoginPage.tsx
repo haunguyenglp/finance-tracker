@@ -3,6 +3,7 @@ import { ThemeToggle } from "../../components/common/ThemeToggle";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { loginUser } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 
 
@@ -11,21 +12,34 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // const handleLogin = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // Xử lý đăng nhập sau
+  //   try {
+  //   const data = await loginUser(email, password);
+  //   console.log("Đăng nhập thành công:", data);
+
+  //   // Ví dụ: lưu token vào localStorage và redirect
+  //   localStorage.setItem("token", data.accessToken);
+  //   navigate("/dashboard");
+  //   } catch (err: any) {
+  //     console.log(err);
+  //     alert(err.message);
+  //   }
+  // };
+  const { login } = useAuth();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Xử lý đăng nhập sau
     try {
-    const data = await loginUser(email, password);
-    console.log("Đăng nhập thành công:", data);
-
-    // Ví dụ: lưu token vào localStorage và redirect
-    localStorage.setItem("token", data.accessToken);
-    navigate("/dashboard");
+      const res = await loginUser(email, password);
+      login(res.user, password);
+      navigate("/dashboard");
     } catch (err: any) {
-      console.log(err);
       alert(err.message);
     }
   };
+
 
   return (
     <Box

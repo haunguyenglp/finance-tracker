@@ -1,18 +1,25 @@
-const API_BASE_URL = "http://localhost:5001/api";
+import axiosClient, { setAccessToken } from "./axiosClient";
 
 export const loginUser = async (email: string, password: string) => {
-  const res = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    const res = await axiosClient.post("/auth/login", {
+      email,
+      password,
+    });
 
-  if (!res.ok) {
-    const errorData = await res.json();
-    throw new Error(errorData.message || "Đăng nhập thất bại");
+    // Set accessToken.
+    setAccessToken(res.data.accessToken);
+
+    return res.data;
+  } catch (error: any) {
+    console.log('failed to login...')
+    throw new Error(
+      error?.response?.data?.message || "Đăng nhập thất bại"
+    );
   }
+};
 
-  return res.json(); // { token, user }
+export const refreshAccessToken = async () => {
+  const res = await axiosClient.post("/auth/refresh-token");
+  return res.data; // { accessToken }
 };
