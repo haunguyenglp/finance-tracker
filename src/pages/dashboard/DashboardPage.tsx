@@ -364,6 +364,7 @@
 
 import { Box, Card, Typography } from '@mui/material';
 import DashboardLayout from '../../layouts/DashboardLayout';
+import BalanceChart from '../../components/dashboard/BalanceChart';
 
 export default function DashboardPage() {
   return (
@@ -406,6 +407,10 @@ export default function DashboardPage() {
           </Typography>
         </Card>
       </Box>
+      
+      {/* BalanceChart */}
+      <BalanceChart />
     </DashboardLayout>
+
   );
 }
