@@ -75,7 +75,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       sx={{
         minHeight: "100vh",
         backgroundColor: "#020617",
-        p: 2,
+        p: { xs: 1, sm: 2 },
         display: "flex",
       }}
     >
@@ -86,7 +86,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <MobileSidebar open={open} onClose={() => setOpen(false)} />
 
       {/* Main */}
-      <Box sx={{ flex: 1, mx: 2 }}>
+      <Box
+        sx={{
+          flex: 1,
+          mx: { xs: 0, md: 2 },
+          width: "100%",
+        }}
+      >
         <DashboardHeader onMenuClick={() => setOpen(true)} />
         {children}
       </Box>

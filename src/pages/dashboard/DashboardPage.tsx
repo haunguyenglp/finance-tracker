@@ -371,9 +371,14 @@ export default function DashboardPage() {
     <DashboardLayout>
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr',
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            lg: "repeat(4, 1fr)",
+          },
           gap: 2,
+          mb: 3,
         }}
       >
         {/* Total Balance */}
@@ -407,7 +412,7 @@ export default function DashboardPage() {
           </Typography>
         </Card>
       </Box>
-      
+
       {/* BalanceChart */}
       <BalanceChart />
     </DashboardLayout>
